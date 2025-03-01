@@ -20,7 +20,7 @@ const int red_led_pin = 7;
 
 /* For robot arm */
 Servo myServo1;  // for joint 1
-Servo myServo2   // for joint 2
+Servo myServo2;  // for joint 2
 
 /* Joystick pins */
 const int joy_x = A0;   // Joystick button X-axis, analog pin 0
@@ -43,8 +43,8 @@ bool current_button_state;
 /* Initialization, must be done before run the main loop function */
 void setup() {
   // robot arm servo to pins
-  servo1.attach(9);
-  servo2.attach(10);
+  myServo1.attach(9);
+  myServo2.attach(8);
 
   // scanning platform servo
   myServo.attach(12);        // Defines on which pin is the servo motor attached, analog pin 12
@@ -87,7 +87,6 @@ void loop() {
     if (distance < 20) {
       trackingAndFollowingObject(i);
     }
-
     controlRobotArm();
   }
 
@@ -177,7 +176,7 @@ void controlLEDs(int distance) {
     digitalWrite(yellow_led_pin, LOW);
     digitalWrite(blue_led_pin, LOW);
     digitalWrite(green_led_pin, HIGH);
-  }   
+  }
 }
 
 // Robot arm control:
@@ -191,8 +190,8 @@ void controlRobotArm() {
   servo2_angle = map(y_val, 0, 1023, 0, 180);
 
   // move servo to the new angles
-  servo1.write(servo1_angle);
-  servo2.write(servo2_angle);
+  myServo1.write(servo1_angle);
+  myServo2.write(servo2_angle);
 
   // current button state
   current_button_state = digitalRead(button_pin);
@@ -223,7 +222,7 @@ void laserActivate(bool flag) {
     Serial.println("Laser Activated!");
   }
   else {
-    Serial.println("Laser Deactivated!")
+    Serial.println("Laser Deactivated!");
   }
   delay(50);
 }
